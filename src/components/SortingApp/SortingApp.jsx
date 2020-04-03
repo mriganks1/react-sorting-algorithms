@@ -3,14 +3,19 @@ import SortingArea from "../SortingArea/SortingArea";
 import { bubbleSort, selectionSort, insertionSort } from "../SortAlgorithms";
 
 class SortingApp extends Component {
+  randomRange = () => {
+    return Math.floor(Math.random() * (250 - 10 + 1) + 10);
+  };
+
   state = {
-    values: Array(100)
+    values: Array(50)
       .fill(1)
       .map((x, i) => {
-        return { height: Math.floor(Math.random() * 200), id: i };
+        return { height: this.randomRange(), id: i, comparing: false };
       }),
-    sort: "0",
-    sorted: false
+    sort: "2",
+    sorted: false,
+    sorting: false
   };
 
   render() {
@@ -18,29 +23,25 @@ class SortingApp extends Component {
       <div>
         <SortingArea {...this.state} />
         <div className="sort-actions">
-          <select onChange={this.handleSortChange} value={this.state.sort}>
+          <select
+            disabled={this.state.sorting}
+            onChange={this.handleSortChange}
+            value={this.state.sort}
+          >
             <option value="0">Bubble Sort</option>
             <option value="1">Selection Sort</option>
             <option value="2">Insertion Sort</option>
           </select>
-          <button disabled={this.state.sorted} onClick={this.handleSort}>
+          <button disabled={this.state.sorting} onClick={this.handleSort}>
             Sort
           </button>
-          <button disabled={!this.state.sorted} onClick={this.handleShuffle}>
+          <button disabled={this.state.sorting} onClick={this.handleShuffle}>
             Shuffle
           </button>
         </div>
       </div>
     );
   }
-
-  wait = ms => {
-    var start = new Date().getTime();
-    var end = start;
-    while (end < start + ms) {
-      end = new Date().getTime();
-    }
-  };
 
   handleSortChange = e => {
     this.setState({ sort: e.target.value });
@@ -65,7 +66,8 @@ class SortingApp extends Component {
 
   handleShuffle = () => {
     const arr = this.state.values.map(x => {
-      x.height = Math.floor(Math.random() * 200);
+      x.height = this.randomRange();
+      x.comparing = false;
       return x;
     });
     this.setState({ values: arr, sorted: false });

@@ -35,7 +35,8 @@ select:focus {
   color: #375c9b;
 }
 
-button:disabled {
+button:disabled,
+select:disabled {
   border-color: lightgrey;
   color: lightgrey;
 }
