@@ -8,12 +8,12 @@ class SortingApp extends Component {
   };
 
   state = {
-    values: Array(50)
+    values: Array(75)
       .fill(1)
       .map((x, i) => {
         return { height: this.randomRange(), id: i, comparing: false };
       }),
-    sort: "2",
+    sort: "0",
     sorted: false,
     sorting: false
   };
