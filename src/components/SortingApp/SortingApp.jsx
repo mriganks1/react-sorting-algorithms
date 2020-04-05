@@ -1,19 +1,26 @@
 import React, { Component } from "react";
 import SortingArea from "../SortingArea/SortingArea";
-import { bubbleSort, selectionSort, insertionSort } from "../SortAlgorithms";
+import {
+  bubbleSort,
+  selectionSort,
+  insertionSort,
+  mergeSort
+} from "../SortAlgorithms";
 
 class SortingApp extends Component {
   randomRange = () => {
     return Math.floor(Math.random() * (250 - 10 + 1) + 10);
   };
 
+  nums = 100;
+
   state = {
-    values: Array(75)
+    values: Array(this.nums)
       .fill(1)
       .map((x, i) => {
         return { height: this.randomRange(), id: i, comparing: false };
       }),
-    sort: "0",
+    sort: "3",
     sorted: false,
     sorting: false
   };
@@ -31,6 +38,7 @@ class SortingApp extends Component {
             <option value="0">Bubble Sort</option>
             <option value="1">Selection Sort</option>
             <option value="2">Insertion Sort</option>
+            <option value="3">Merge Sort</option>
           </select>
           <button disabled={this.state.sorting} onClick={this.handleSort}>
             Sort
@@ -58,6 +66,9 @@ class SortingApp extends Component {
         break;
       case "2":
         insertionSort.apply(this, [this.state.values]);
+        break;
+      case "3":
+        mergeSort.apply(this, [this.state.values]);
         break;
       default:
         this.handleShuffle();
