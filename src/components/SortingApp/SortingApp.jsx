@@ -4,7 +4,8 @@ import {
   bubbleSort,
   selectionSort,
   insertionSort,
-  mergeSort
+  mergeSort,
+  quickSort
 } from "../SortAlgorithms";
 
 class SortingApp extends Component {
@@ -20,7 +21,7 @@ class SortingApp extends Component {
       .map((x, i) => {
         return { height: this.randomRange(), id: i, comparing: false };
       }),
-    sort: "3",
+    sort: "4",
     sorted: false,
     sorting: false
   };
@@ -39,6 +40,7 @@ class SortingApp extends Component {
             <option value="1">Selection Sort</option>
             <option value="2">Insertion Sort</option>
             <option value="3">Merge Sort</option>
+            <option value="4">Quick Sort</option>
           </select>
           <button disabled={this.state.sorting} onClick={this.handleSort}>
             Sort
@@ -69,6 +71,13 @@ class SortingApp extends Component {
         break;
       case "3":
         mergeSort.apply(this, [this.state.values]);
+        break;
+      case "4":
+        quickSort.apply(this, [
+          this.state.values,
+          0,
+          this.state.values.length - 1
+        ]);
         break;
       default:
         this.handleShuffle();

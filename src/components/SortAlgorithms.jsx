@@ -86,7 +86,7 @@ async function mergeSort(arr) {
   while (!sorted) {
     if (sortHistory.length > this.nums) sorted = true;
     outerDepth++;
-    await sleep(WAIT_TIME + 200);
+    await sleep(WAIT_TIME + 1000);
     const final = doMergeSort(arr, outerDepth + 1);
     this.setState({ values: final });
   }
@@ -123,10 +123,40 @@ async function mergeSort(arr) {
   //
 }
 
+async function quickSort(arr, left, right) {
+  const partition = async (arr, start, end) => {
+    const pivotValue = arr[end];
+    let pivotIndex = start;
+
+    for (let i = start; i < end; i++) {
+      arr[i].comparing = true;
+      arr[pivotIndex].comparing = true;
+      this.setState({ values: arr });
+      await sleep(WAIT_TIME);
+      arr[i].comparing = false;
+      arr[pivotIndex].comparing = false;
+      if (arr[i].height < pivotValue.height) {
+        swap(arr, i, pivotIndex);
+        pivotIndex++;
+      }
+    }
+    swap(arr, right, pivotIndex);
+    return pivotIndex;
+  };
+
+  if (left < right) {
+    const partitionIndex = await partition(arr, left, right);
+    quickSort.call(this, arr, left, partitionIndex - 1);
+    quickSort.call(this, arr, partitionIndex + 1, right);
+  }
+  this.setState({ values: arr });
+  return arr;
+}
+
 function sleep(time) {
   return new Promise(resolve => {
     setTimeout(resolve, time);
   });
 }
 
-export { bubbleSort, selectionSort, insertionSort, mergeSort };
+export { bubbleSort, selectionSort, insertionSort, mergeSort, quickSort };
